@@ -25,11 +25,28 @@ make
 This code is released under Apache License version 2.0.
 
 ## Code structure
-Capoc code is conceptually separated into few loosely connected parts:
+Most of Capoc code was adapted from an earlier C project, and thus would benefit from a more C++ oriented refactoring. It is conceptually separated into few loosely connected parts:
 * capEngine and accompanying classes (capModel, capNvm, capNvmCam, capCli, capCliThread) load, represent and process 3D models and NVM files. 
 * capRender_AncientGL (implementing an abstract class capRenderer) - draws point clouds, meshes and NVM files using legacy OpenGL (display lists, glVertex3f and similar)
 * wxCapoc_* classes implement a rudimentary GUI on top of the wxWidgets library and specifically wxGLCanvas class
 * utility classes (capServer, capCli, tcpServer)
+
+### capEngine
+capEngine provides two interfaces for the GUI part, namely a scripting command and native C++ interface, through which it receives commands from the GUI module. It does not make any assumptions on the GUI toolkit in use (the first version of capoc 
+
+Most of the functions are invoked with scripting commands, by calling  `capEngine::execStringf()`. These commands take the form of short, one line keyword combinations, such as `camera retreat` or `model 0 nvm camera P8192012.JPG reproject throw-cursor`. 
+
+The native interface is used rarely. Its purpose is to serve timing sensitive operations (such as setting view angles selection of 3D points with mouse - `capEngine::mouseAction`), as well as for character-set sensitive operations (i.e. opening files with Unicode characters - for example `capEngine::loadModel` or `capModel::saveSelection`
+
+### capRenderer_AncientGL
+The capRenderer_AncientGL class accesses capModel/capNvm public properties to visualize the mesh and the NVM file. It would be advisable to refactor this into modern OpenGL with vertex buffers and shaders. This is a standalone task, since other parts of code do not make any assumptions on the 3D graphics toolkit in use.
+
+### wxCapoc classes
+These classes are the youngest and probably cleanest native C++. The first version of Capoc implemented a simplistic but somewhat confusing keyboard shortcut interface over the FreeGLUT toolkit. This has subsequently been rewritten into modern wxWidgets with menus, tree for browsing the loaded models and NVM photographs etc. However not all functions available from capEngine were implemented in the GUI - control over artificial shading and lighting being one of the examples.  A scripting console is provided for advanced users to access these features before they are implemented in further versions of the GUI
+
+### utility classes
+* capAffineMatrix implements rudimentary affine matrix operations (such as inverting 3D affine matrices or constructing transformation matrices for basic geometric operations)
+* capCli is a C++ wrap up of a former C code for building command line interfaces on embedded systems. Capoc uses it to implement the scripting interface.
 
 ## References
 Capoc uses:

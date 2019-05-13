@@ -1,0 +1,270 @@
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<title>CAPOC Cave Point Clouds (and Meshes)</title>
+<link rel="stylesheet"  type="text/css" href="style.css" />
+</head>
+<body>
+<p>
+	<i>
+		Capoc (Cave Point Clouds and Meshes) is a tool for immersive browsing of 3D cave models, registering
+		models and taking virtual measurements from within the model.
+	</i>
+</p>
+<p>
+	<i>
+		This tutorial serves as documentation of Capoc until something better is written. Since the browsing function
+		is rather intuitive, it focuses on registration (ie. aligning a SfM model with a real-world cave survey polygon)
+		and taking virtual measurements.
+	</i>
+</p>
+<h1>Loading and aligning models</h1>
+<div class='tutorial'>
+	<div>
+		<h2>Download and extract capoc</h2>
+		<p>
+			Download <a href="capoc-windows.zip">capoc-windows.zip</a> and extract it to a convenient location. Capoc does not need
+			installing.
+		</p>
+	</div>
+	<div>
+		<h2>Download and extract example data</h2>
+		<p>
+			Download the example data coming along with this tutorial: <a href="capoc-example.zip">capoc-example.zip</a>. Extract
+			the archive contents to a convenient location.
+		</p>
+	</div>
+	<div>
+		<h2>Load the SfM model</h2>
+		<p>Open the top menu and select <i>File / Open model</i>. Select the <i>sfm_cave.ply</i> from the example data set.</p>
+		<img src="img/open-model.png">
+	</div>
+	<div>
+		<h2>Load camera poses</h2>
+		<p>Again go to the top menu, this time selecting <i>File / Open NVM</i>. Choose the NVM file <i>example.nvm</i>
+		from the <i>nvm</i> subdirectory of the example data set</p>
+	</div>
+	<div>
+		<h2>Browse through images</h2>
+		<p>If you click on <i>Images</i> in the left pane of the main window, a list of files should appear. Double click
+		the first file <i>P8172450.JPG</i>. A photograph from our example cave should appear in the right pane.</p>
+		<img src="img/open-image.png">
+	</div>
+	<div>
+		<h2>See relations between images and 3D</h2>
+		<p>
+			Now right click the image file name and select <i>Assume pose</i>
+		</p>
+		<img src="img/assume-pose.png">
+	</div>
+	<div>
+		<h2>Browse the 3D model</h2>
+		<p>
+			You should see a 3D view of the cave. Holding left mouse key pressed, drag mouse around the window to
+			change viewing angles. You can also use a/s/d/w keys to navigate the model. If you step back (pressing s),
+			you will notice the model is actually upside down. To fix it, we will align the model to a real world cave survey,
+			 locating four survey stations on the SfM photographs.
+		</p>
+		<img src="img/upside-down.png">
+	</div>
+	<div>
+		<h2>Find the survey station</h2>
+		<p>
+			Again double click the image file name.
+			Notice the survey station marking on a rock in the bottom right corner of the picture. Using right mouse
+			button, drag the red cross onto this marking. Then press and hold shift, and holding the key right-drag
+			so that the range indication (the circle around the cross) is only slightly bigger than the cross itself.
+		</p>
+		<img src="img/reprojection-cursor.png">
+	</div>
+	<div>
+		<h2>Find 3D points in the model</h2>
+		<p>
+			Now go to the top menu and select <i>NVM / Reproject pixel</i>
+		</p>
+		<img src="img/reproject-pixel.png">
+	</div>
+	<div>
+		<h2>Verify the point was found</h2>
+		<p>
+			If all goes well, the cursor will turn green and the status bar at the window bottom should indicate some 3D coordinates.
+			After the reprojection, the cursor might move slightly or stay in the same place. At this stage, either is fine.
+		</p>
+		<p>
+			If it is not the case and the status bar reads <i>Reprojection failed</i>, you need to reposition the cursor - and probably
+			increase the reprojection range (ie. make the circle around cursor bigger). After that, select <i>NVM / Reproject pixel</i>
+			again.
+		</p>
+		<img src="img/reprojection-success.png">
+	</div>
+	<div>
+		<h2>Save the point</h2>
+		<p>
+			Now go to the left pane of the main window and find the <i>sfm_cave</i> file within the <i>Models</i> group. Right-click
+			the file name to open a menu. Select <i>Add point</i>.
+		</p>
+		<img src="img/add-point.png">
+	</div>
+	<div>
+		<h2>Assign a name</h2>
+		<p>
+			In the newly open window, name this point <i>dep.1</i> (the name is very important). Click OK to save the point.
+		</p>
+		<img src="img/add-point-dialog.png">
+	</div>
+	<div>
+		<h2>Find and mark dep.0</h2>
+		<p>
+			Double click <i>P8172466.JPG</i>. Locate the "0" point marking (near the middle of right edge). Move
+			the reprojection cursor to this point (with right-dragging). Again use <i>NVM / Reproject pixel</i> and
+			<i>Add point</i> to find and store 3D coordinates. Store this point as <i>dep.0</i>
+
+		</p>
+		<img src="img/dep-0.png">
+	</div>
+	<div>
+		<h2>Find and mark dep.2</h2>
+		<p>
+			You need at least four points to define an affine transformation, so still two to go. Double click <i>P8172482.JPG</i>
+			and notice another surveying station near the middle of the top edge. Reproject this point and save it
+			as <i>dep.2</i>
+		</p>
+		<img src="img/dep-2.png">
+	</div>
+	<div>
+		<h2>Find and mark dep.3</h2>
+		<p>
+			The last example point is located on <i>P8172975.JPG</i>. There is a small "3" on the rock not far
+			from the bottom left corner. Reproject this point and save it as <i>dep.3</i>
+		</p>
+		<img src="img/dep-3.png">
+	</div>
+	<div>
+		<h2>Load cave survey</h2>
+		<p>
+			Use <i>File / Open model...</i> and load the cave survey file from <i>svx</i> subdirectory (the filename
+			is <i>dep.3d</i>). This file contains real world coordinates for surveying stations.
+		</p>
+		<p>
+			Now if you browse the point list, it will become clear why the point names were so important: the names
+			we had used match exactly the station names occuring in <i>dep.3d</i>
+		</p>
+		<img src="img/point-list.png">
+	</div>
+	<div>
+		<h2>Select the master model</h2>
+		<p>
+			Right click <i>dep.3d</i> in the left pane. When a menu opens, select <i>Set as master</i>. This lets capoc
+			know which of the loaded models is the <i>real world</i> (in terms of coordinate systems).
+		</p>
+		<img src="img/set-master.png">
+	</div>
+	<div>
+		<h2>Compute transform</h2>
+		<p>
+			Now right click <i>sfm_cave.ply</i> and select <i>Transform / Transform to master</i>
+		</p>
+		<img src="img/transform-to-master.png">
+	</div>
+	<div>
+		<h2>Enjoy aligned model</h2>
+		<p>
+			Seemingly nothing interesting happened. However, right click <i>P8172466.JPG</i> and select <i>Assume pose</i>.
+			You will see that the cave model is now rotated and scaled to match the imported survey.
+		</p>
+		<img src="img/aligned-model.png">
+	</div>
+	<div>
+		<h2>View log</h2>
+		<p>
+			Click <i>View / Message log</i> to see more detailed information on the transformation process.
+		</p>
+		<img src="img/view-log.png">
+	</div>
+	<div>
+		<h2>Worth knowing</h2>
+		<ul>
+			<li>
+				Capoc can open <i>PLY</i>, <i>OFF</i>, <i>NVM</i> and <i>Survex 3D</i> files.
+				You can "load" a NVM file as a model. In that case, of course only the sparse point cloud is loaded (no mesh).
+			</li>
+			<li>
+				The plane fitting works on <b>points</b>, it does not need a mesh (and does not use any surface information)
+			</li>
+			<li>
+				The first loaded model is special to Capoc. Only one NVM file can be loaded at a time and it is always
+				assigned to the first model. Also, points can only be selected from the first model.
+			</li>
+			<li>
+				<i>Reproject pixel</i> projects the model vertices onto currently selected camera plane. Comparing to
+				what SfM does, this is the backward direction and hence the feature name. If less than five mesh points
+				end up within the cursor range (red circle), the 3D point <b>closest to camera</b> is selected and indicated
+				in green both on 3D views and the image view. If five or more matching points are found,
+			</li>
+			<li>
+				With <i>File / Save project</i> you can create a script that will load your current models, enter all
+				saved points and set the camera at the current position. If you restart Capoc, this script can be
+				then loaded through <i>File / Execute script...</i>
+			</li>
+		</ul>
+	</div>
+</div>
+<h1>Measurements with Capoc</h1>
+<div class="tutorial">
+	<div>
+		<h2>Go to cross-section view</h2>
+		<p>
+			Select <i>View / Xsect</i>. Zoom in using the <i>=</i> key (or <i>View / Zoom in</i> a couple of times). Right click somewhere
+			on the cross section and drag the mouse, holding right mouse button pressed - a straight line will appear.
+			This is how simple virtual measurements in Capoc are made. You can see the line length and orientation on the
+			status bar (bottom of the window).
+		</p>
+		<img src="img/simple-measure.png">
+	</div>
+	<div>
+		<h2>Select points</h2>
+		<p>
+			Now press and hold Shift. With Shift pressed, right click somewhere on the wall within the cross-section and
+			holding both the right mouse button and shift, drag the mouse. With this action, a piece of the 3D model is
+			marked with yellow colour.
+		</p>
+		<img src="img/select-points.png">
+	</div>
+	<div>
+		<h2>Explore the selection</h2>
+		<p>
+			Select <i>View / Caver</i>. If you back away a little (with <i>s</i> key), you will notice the selection
+			is also visible on the perspective view.
+		</p>
+		<img src="img/select-highlight.png">
+	</div>
+	<div>
+		<h2>Fit plane to selection</h2>
+		<p>
+			Now we will measure the average orientation of the selected part of the model.
+			Right-click <i>sfm_cave.ply</i>. Select <i>Selection / Fit plane</i>.
+		</p>
+		<img src="img/fit-plane.png">
+	</div>
+	<div>
+		<h2>Read measurements</h2>
+		<p>
+			The fitted plane is indicated on the 3D view with randomly scattered blue dots and
+			a blue line representing the normal vector. Verify if makes sense, and if so, take notice
+			of the readings visible on status bar.
+		</p>
+		<img src="img/fit-plane-results.png">
+	</div>
+	<div>
+		<h2>Worth knowing</h2>
+		<ul>
+			<lI>There is an extensive scripting system available in Capoc. Check <i>File / Console</i>. Commands
+				are entered in the lower text box. Context help is available by typing a question mark (start with
+				just typing a single question mark - ?). You can also write down commands into a text file and execute
+				them with <i>File / Execute script</i>.
+			</lI>
+		</ul>
+	</div>
+</div>
+</body>
+</html>

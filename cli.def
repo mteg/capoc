@@ -1,0 +1,420 @@
+delay	T_KEYWORD	Introduce delay before executing following command
+	<num>	T_DELAY	Delay in milliseconds
+		#.
+camera	T_CAMERA	Alter camera position and orientation
+	capture	T_KEYWORD	Render and save into file
+		<string>	T_CAPTURE	File name
+	log	T_LOG	Log current camera position
+	set	T_SET	Set camera position and angles
+		<word>	T_X	X coordinate
+			<word>	T_Y	Y coordinate
+				<word>	T_Z	Z coordinate
+					<word>	T_YAW	Yaw (degrees)
+						<word>	T_PITCH	Pitch (degrees)
+	configure	T_KEYWORD	Set unit steps
+		walk-step	T_KEYWORD	Set walking step
+			<word>	T_STEP	Unit step (degrees)
+		rotate-step	T_KEYWORD	Set rotation step
+			<word>	T_STEP	Unit step (degrees)
+	slightly	T_SLIGHTLY	Multiply step by 0.1
+		#.camera
+	advance	T_ADVANCE	Walk forward in current yaw direction
+		by	T_KEYWORD	Walk by a specified step			
+			<word>	T_STEP	Unit step
+	retreat	T_RETREAT	Walk back in current yaw direction
+		#.camera.advance
+	left	T_LEFT	Move 90 degrees left to current yaw
+		#.camera.advance
+	right	T_RIGHT	Move 90 degrees right to current yaw
+		#.camera.advance
+	up	T_UP	Move up
+		#.camera.advance
+	down	T_DOWN	Move down
+		#.camera.advance
+	look	T_LOOK	Change current yaw or pitch
+		left	T_LOOKLEFT	Look left
+			by	T_KEYWORD	Yaw by specified step
+				<word>	T_STEP	Unit step (degrees)	
+		right	T_LOOKRIGHT	Look right
+			#.camera.look.left
+		up	T_LOOKUP	Look up
+			#.camera.look.left
+		down	T_LOOKDOWN	Look down
+			#.camera.look.left	
+	xplane	T_XPLANE	Control cross-section plane display
+		alpha	T_ALPHA	Set transparency
+			by	T_KEYWORD	Alter transparency by...
+				<num>	T_STEP	Unit step
+		color	T_KEYWORD	Set plane color
+			<num>	T_SET_R	Red component
+				<num>	T_SET_G	Green component
+					<num>	T_SET_B	Blue component
+bind	T_KEYWORD	Bind an action to key code
+	press	T_PRESS	Bind key press
+		<word>	T_BINDCODE	Keyboard code
+			<string>	T_COMMAND	Command to bind
+	hold	T_HOLD	Bind key hold
+		#.bind.press
+	release	T_RELEASE	Bind key release
+		#.bind.press
+	drag	T_KEYWORD	Bind mouse drag
+		shift	T_SHIFT	Bind shifted mouse drag
+			#.bind.drag
+		left	T_BUTTON=1	Bind drag w/left button
+			x-axis	T_AXIS=0	Bind X axis
+				<word>	T_FACTOR	Factor
+					none	T_DRAG=0	Unbind mouse move action
+					camera-pitch	T_DRAG=1	Bind camera pitch angle
+					camera-yaw	T_DRAG=2	Bind camera yaw angle
+					camera-depth	T_DRAG=3	Bind camera Z position
+					camera-offset	T_DRAG=4	Bind camera X position
+					camera-height	T_DRAG=5	Bind camera Y position
+					marker-x	T_DRAG=6	Bind NVM raster X marker
+					marker-y	T_DRAG=7	Bind NVM raster Y marker
+					mark-points	T_DRAG=8	Mark points
+					measure	T_DRAG=9	Measurement tool
+					pan-x	T_DRAG=10	Pan NVM	camera (X axis)
+					pan-y	T_DRAG=11	Pan NVM camera (Y axis)
+			y-axis	T_AXIS=1	Bind Y axis
+				#.bind.drag.left.x-axis
+		right	T_BUTTON=2	Bind drag w/right button
+			#.bind.drag.left
+keymap	T_KEYWORD	Work on specific keymap
+	activate	T_ACTIVATE	Activate a specific keymap
+		<word>	T_KEYMAP	Keymap name
+	<word>	T_KEYMAP	Keymap name
+		description	T_DESCRIPTION	Keymap description
+		bind	T_KEYWORD	Bind a key in this keymap
+			#.bind
+view	T_VIEW	Change view parameters
+	set	T_KEYWORD	Set unit steps
+		raster-size	T_RSIZE	Set raster size
+			larger	T_ENLARGE	Enlarge rasters
+			smaller	T_SHRINK	Shrink rasters
+			<word>	T_VALUE	Raster size to configure
+		raster-range	T_RRANGE	Set raster range
+			larger	T_ENLARGE	Enlarge rasters
+			smaller	T_SHRINK	Shrink rasters
+			<word>	T_VALUE	Raster size to configure
+	switch	T_KEYWORD	Change current view
+		plan	T_SETVIEW=0	Switch to top view
+		profile	T_SETVIEW=1	Switch to extended profile
+		xsect	T_SETVIEW=2	Cross-section
+		caver	T_SETVIEW=3	Perspective
+		nvmcam	T_SETVIEW=4	NVM camera
+		fourview	T_SETVIEW=6	Three orthogonal views + perspective
+	zoom	T_ZOOM	Zoom in or out
+		plan	T_MODVIEW=0	Top view
+			#.view.zoom.current
+		profile	T_MODVIEW=1	Profile view
+			#.view.zoom.current
+		xsect	T_MODVIEW=2	Cross-section view
+			#.view.zoom.current
+		nvmcam	T_MODVIEW=4	NVM camera view
+			#.view.zoom.current
+		caver	T_MODVIEW=3	Change 3D camera FOV
+			#.view.zoom.current
+		current	T_MODVIEW=255	Current view
+			set-to	T_SET	Set zoom
+				<word>	T_BY	Zoom factor
+			in	T_IN	Zoom in
+				by	T_KEYWORD	Zoom factor
+					<word>	T_BY	Zoom by ...
+			out	T_OUT	Zoom out
+				#.view.zoom.current.in
+	clip	T_CLIP	Clip in or out
+		#.view.zoom
+	offset	T_OFFSET	Offset in or out
+		#.view.zoom
+	fog	T_FOG	Fog in or out
+		on	T_ON	Turn fog on
+		off	T_OFF	Turn fog off
+		set	T_SET	Set fog distance
+			<word>	T_LEVEL	Fog level
+		in	T_IN	Bring fog in
+			#.view.zoom.in
+		out	T_OUT	Bring fog out
+			#.view.zoom.in
+		slightly	T_SLIGHTLY	Bring fog in or out slightly
+			in	T_IN	Bring fog in
+				#.view.zoom.in
+			out	T_OUT	Bring fog out
+				#.view.zoom.in
+
+model	T_KEYWORD	Load or change model specifics
+	load	T_MODEL=255	Load model into next available slot
+		#.model.<num>.load
+	<num>	T_MODEL	Model number
+		load	T_KEYWORD	Load model from file
+			from	T_KEYWORD	Specify file name
+				<string>	T_LOAD_MODEL	File name
+			color	T_KEYWORD	Set model color
+				<num>	T_SET_R	Set Red component (0-255)
+					<num>	T_SET_G	Set Green component (0-255)
+						<num>	T_SET_B	Set Blue component (0-255)
+							<num>	T_SET_A	Set Alpha component (0 - transparent, 255 - opaque)
+								#.model.<num>.load
+			compute-normals	T_NORMALS	(Re)compute normals
+					#.model.<num>.load
+		append	T_APPEND	Append model from file
+			#.model.<num>.load
+		recolor	T_RECOLOR	Recolor model
+			from	T_KEYWORD	Load colors from file
+				<word>	T_RECOLOR_FROM	File to read colors from
+					gray-uncolorable	T_GRAY_UNCOLORABLE	Gray uncolorable points
+						#.model.<num>.recolor.from.<word>
+					delete-uncolorable	T_DELETE_UNCOLORABLE	Delete uncolorable points
+						#.model.<num>.recolor.from.<word>
+					undelete-colorable	T_UNDELETE_COLORABLE	Undelete colorable points
+						#.model.<num>.recolor.from.<word>
+			<num>	T_SET_R	Set Red component (0-255)
+				<num>	T_SET_G	Set Green component (0-255)
+					<num>	T_SET_B	Set Blue component (0-255)
+						<num>	T_SET_A	Set Alpha component (0 - transparent, 255 - opaque)
+		color-quality	T_KEYWORD	Manipulate color quality table
+			reset	T_RESET_COLORS	Reset color qualities
+		restrict	T_DELOP	Delete points far from current camera position
+			to	T_KEYWORD	Specify target number of vertices
+				<num>	T_NUM_V	Target number of vertices
+		save	T_KEYWORD	Save model as ...
+			<string>	T_SAVE_AS	File name
+		selection	T_SELECTION	Operations on selected points
+			add-behind	T_ADD_BEHIND	Add all points behind current camera to selection
+			delete	T_DELETE	Delete current selection
+			undelete-all	T_UNDELETE	Undelete all deleted points
+			reset	T_RESET	Reset the selection
+			fit-plane	T_FIT	Fit a plane to selection
+			component	T_POPCOMPONENT	Pop one component
+			grow	T_GROW	Grow or shrink selection by edge distance
+				by	T_KEYWORD	Grow by ...
+					<word>	T_BY	Affine units (negative to shrink)
+			boundary	T_BOUNDARY	Mark unmarked vertices adjacent to selection
+			walk-edge	T_WALKEDGE	Mark adjacent mesh edge vertices
+				step	T_KEYWORD	How many steps to make
+					<num>	T_STEPS	Steps
+			save	T_KEYWORD	Save selection as ...
+				<string>	T_SAVE_AS	File name
+			dump-components	T_PATCHES	Dump selection components
+		compute-normals	T_NORMALS	(Re)compute normals
+		transform	T_TRANSFORM	Apply an affine transformation to the model
+			matrix	T_MATRIX	Specify affine matrix
+				x	T_KEYWORD	Specify first row of the affine matrix
+					<word>	T_M11	First column
+						<word>	T_M12	Second column
+							<word>	T_M13	Third column
+								<word>	T_M14	Offset
+									y	T_KEYWORD	Specify second row of the affine matrix
+										<word>	T_M21	First column
+											<word>	T_M22	Second column
+												<word>	T_M23	Third column
+													<word>	T_M24	Offset
+														z	T_KEYWORD	Specify third row of the affine matrix
+															<word>	T_M31	First column
+																<word>	T_M32	Second column
+																	<word>	T_M33	Third column
+																		<word>	T_M34	Offset
+			pitch	T_TRANSFORM_PITCH	Rotate around camera X axis
+				<word>	T_TRANSFORM_ANGLE	Angle in degrees
+			yaw	T_TRANSFORM_YAW	Rotate around camera Y axis
+				<word>	T_TRANSFORM_ANGLE	Angle in degrees
+			roll	T_TRANSFORM_ROLL	Rotate around camera Z axis
+				<word>	T_TRANSFORM_ANGLE	Angle in degrees
+			scale	T_KEYWORD	Scale uniformly using camera as origin
+				<word>	T_TRANSFORM_SCALE	Scale coefficient
+			translate	T_KEYWORD	Translate the model
+				<word>	T_TX	X offset
+					<word>	T_TY	Y offset
+						<word>	T_TZ	Z offset
+			to	T_KEYWORD	Find an affine transformation into another coordinate system
+				<num>	T_TRANSFORM_TO	Model defining the target coordinate system
+					compose	T_COMPOSE	Compose computed transform with current transform
+		display	T_DISPLAY	Model displaying options
+			refine	T_REFINE	Add detail
+			generalize	T_GENERALIZE	Remove detail
+			none	T_NONE	Do not display this model
+			points	T_POINTS	Display points
+			faces	T_FACES	Display faces
+			edges	T_EDGES	Display edges
+		info	T_INFO	Display information on this model
+		point	T_POINT	Manipulate model saved points
+			<word>	T_POINT_ID	Point ID
+				set-to	T_SET	Set point coordinates
+					<word>	T_PX	X coordinate
+						<word>	T_PY	Y coordinate
+							<word>	T_PZ	Z coordinate
+				delete	T_DELETE	Delete this point
+				see	T_SEE	Assume camera so that this point can be seen
+		nvm	T_NVM	N-view match operations
+			load	T_KEYWORD	Load NVM file
+				<num>	T_NVM_ID	NVM model ID
+					from	T_KEYWORD	Specify file to load from
+						<string>	T_LOAD_NVM	File name
+			search	T_SEARCH	Dump cameras seeing selected points
+				sparse	T_KEYWORD	Search NVM points around the selection (fast)
+					reorder	T_REORDER	Reorder cameras by point count			
+				dense	T_DENSE	Reproject selection onto all cameras (slow)
+					reorder	T_REORDER	Reorder cameras by point count
+						#.model.<num>.nvm.search.dense
+					depth-tolerance	T_KEYWORD	Specify depth map tolerance
+						<word>	T_ZTOL	Depth map tolerance for determining point visibility
+							#.model.<num>.nvm.search.dense
+					max-depth	T_KEYWORD	Ignore points farther than ...
+						<word>	T_ZMAX	Maximum distance from camera plane
+							#.model.<num>.nvm.search.dense
+					min-depth	T_KEYWORD	Ignore points closer than ...
+						<word>	T_ZMIN	Minimum distance from camera plane
+							#.model.<num>.nvm.search.dense
+					no-map	T_NOMAP	Do not use depth maps
+						#.model.<num>.nvm.search.dense
+			show	T_SHOW	Show stuff
+				image	T_IMAGE	Show NVM image	
+				planar-points	T_2DPOINTS	Show 3d points as seen on camera plane
+					#.model.<num>.nvm.camera.show
+				spatial-points	T_3DPOINTS	Show 3d points seen by this camera
+					#.model.<num>.nvm.camera.show
+				matching	T_LINES	Show lines connecting 2d with 3d points
+					#.model.<num>.nvm.camera.show
+				next-match	T_NEXT_MATCH	Highlight next match
+					#.model.<num>.nvm.camera.<word>
+				prev-match	T_PREV_MATCH	Highlight previous match 
+					#.model.<num>.nvm.camera.<word>
+			hide	T_HIDE	Hide stuff
+				image	T_IMAGE	Hide NVM image
+				planar-points	T_2DPOINTS	Hide 3d points as seen on camera plane
+					#.model.<num>.nvm.camera.hide
+				spatial-points	T_3DPOINTS	Hide3d points seen by this camera
+					#.model.<num>.nvm.camera.hide
+				matching	T_LINES	Hide lines connecting 2d with 3d points
+					#.model.<num>.nvm.camera.hide
+				all	T_HIDEALL	Hide the NVM camera
+			camera	T_ALTER_CAMERA	Display camera data
+				order-by	T_ORDER	Order cameras
+					distance	T_DISTANCE	Order cameras by absolute distance from camera plane
+						#.model.<num>.nvm.camera.order-by.depth					
+					depth	T_DEPTH	Order cameras by distance from camera plane
+						offset	T_KEYWORD	Find cameras slightly forward
+							<word>	T_OFFSET	Depth offset
+								first	T_FIRST	Configure actions with the first camera
+									#.model.<num>.nvm.camera.<word>
+						first	T_FIRST	Configure actions with the first camera
+							#.model.<num>.nvm.camera.<word>
+					name	T_NAME	Order cameras by name
+					index	T_INDEX	Order cameras by NVM index
+					seen	T_SEEN	Order cameras by seen features
+						first	T_FIRST	Configure actions with the first camera
+							#.model.<num>.nvm.camera.<word>
+				next	T_NEXT	Select next camera
+					#.model.<num>.nvm.camera.<word>
+				prev	T_PREV	Select previous camera
+					#.model.<num>.nvm.camera.<word>
+				current	T_CURRENT	Select current camera
+					#.model.<num>.nvm.camera.<word>
+				*	T_ALL	Loop through all cameras if possible
+					#.model.<num>.nvm.camera.<word>
+				<word>	T_CAMERA_NAME	Camera index or file name
+					set-active	T_SET_ACTIVE	Mark camera as active and show its image
+						#.model.<num>.nvm.camera.<word>
+					refresh	T_REFRESH	Do not change anything, just refresh the view
+					see	T_SEE	Move scene camera so that it almost matches this camera
+						#.model.<num>.nvm.camera.<word>
+					reproject	T_REPROJECT	Reproject 3d points onto this camera
+						selection	T_ONLY_SELECTION	Reproject only selected vertices
+							#.model.<num>.nvm.camera.<word>.reproject
+						throw-cursor	T_THROW	Throw rays from current NVM cursor
+							#.model.<num>.nvm.camera.<word>.reproject
+						recolor-projectable	T_RECOLOR	Recolor all points projectable by this camera
+							#.model.<num>.nvm.camera.<word>.reproject
+						undelete-colorable	T_UNDEL_COL	Undelete points colorable by this camera
+							#.model.<num>.nvm.camera.<word>.reproject
+						delete-unprojectable	T_DEL_UNPROJ	Delete 3d points not projectable by this camera
+							#.model.<num>.nvm.camera.<word>.reproject
+						gray-unprojectable	T_GRAY_UNPROJ	Mark unprojectable 3d points as gray
+							#.model.<num>.nvm.camera.<word>.reproject
+						dump-projectable	T_DUMP	Dump RGB color data for projectable points
+							#.model.<num>.nvm.camera.<word>.reproject
+						mark-projectable	T_MARK	Mark vertices projectable by this camera
+							#.model.<num>.nvm.camera.<word>.reproject
+						summary	T_SUMMARY	Dump a summary of this recoloring
+							#.model.<num>.nvm.camera.<word>.reproject
+						save-depths	T_KEYWORD	Save a depth map
+							<word>	T_DEPTH_MAP	File name
+								#.model.<num>.nvm.camera.<word>.reproject
+						no-map	T_NOMAP	Do not use a depth map
+							#.model.<num>.nvm.camera.<word>.reproject
+						reset-quality	T_RESET_QUALITY	Reset color quality before reprojecting
+							#.model.<num>.nvm.camera.<word>.reproject
+					diag	T_DIAG	Diagnostics
+						info	T_NVMINFO	Dump camera information
+						measurements	T_MEAS	Dump measurements seen by this camera
+						reproject	T_REPROJECT_POINT	Compute point reprojection
+							<word>	T_X	X coordinate
+								<word>	T_Y	Y coordinate
+									<word>	T_Z	Z coordinate
+light	T_LIGHT	Control light
+	enable	T_ENABLE	Enable light
+	disable	T_DISABLE	Disable light
+	raise	T_RAISE	Raise light
+		<word>	T_BY	Units
+	offset	T_OFFSET	Offset light
+		<word>	T_BY	Units
+	set	T_SET	Set light brightness
+		#.light.brighten
+	brighten	T_BRIGHTEN	Brighten light
+		quadratic	T_QUADRATIC	Change quadratic component
+			<word>	T_BY	Units
+		linear	T_LINEAR	Change linear component
+			<word>	T_BY	Units
+		constant	T_CONSTANT	Change constant component
+			<word>	T_BY	Units
+	drop	T_LDROP	Drop light at current camera position
+	drag	T_LDRAG	Drag light along
+
+exit	T_EXIT	Disconnect CLI
+exec	T_KEYWORD	Execute a file
+	<string>	T_EXEC	File name to load
+flag	T_KEYWORD	Set or reset miscellaneous flags
+	set	T_SET	Set a flag
+		fix-lmb	T_MISCFLAG=1	Act like left mouse button was constantly pressed
+			#.flag.set
+		log-all	T_MISCFLAG=2	Log every camera movement
+			#.flag.set
+		keep-moving	T_MISCFLAG=4	Keep moving forward
+			#.flag.set
+		only-nvm-images	T_MISCFLAG=32	Only display NVM  images
+			#.flag.set
+		jq-shader	T_MISCFLAG=64	Enable JohnnyQuest shader
+			#.flag.set
+	clear	T_CLEAR	Clear a flag
+		#.flag.set
+	toggle	T_TOGGLE	Toggle a flag
+		#.flag.set
+log	T_LOG	Set and use measurement log file
+	file	T_KEYWORD	Set new log file
+		<string>	T_CHANGE_LOG	Log file name
+	camera	T_CAMERA	Log current camera position
+	next-station	T_NEXT	Advance station pointer
+	prev-station	T_PREV	Retreat station pointer
+	commit	T_COMMIT	Dump last measurement to log
+set	T_KEYWORD	Set miscellaneous parameters
+	nvm	T_SET_NVM	Set NVM parameters
+		alpha	T_KEYWORD
+			<num>	T_NVM_ALPHA	Set alpha component
+	reprojection	T_SET_REPROJECTION	Set reprojection parameters
+		depth-tolerance	T_KEYWORD	Specify depth map tolerance
+			<word>	T_ZTOL	Depth map tolerance for determining point visibility
+				#.set.reprojection
+		max-depth	T_KEYWORD	Ignore points farther than ...
+			<word>	T_ZMAX	Maximum distance from camera plane
+				#.set.reprojection
+		min-depth	T_KEYWORD	Ignore points closer than ...
+			<word>	T_ZMIN	Minimum distance from camera plane
+				#.set.reprojection
+		dot-range	T_KEYWORD	Accepted normal * camera axis dot product value
+			<word>	T_DOTMIN	Minimal dot product
+				<word>	T_DOTMAX	Maximal dot product
+					#.set.reprojection
+		cache	T_KEYWORD	Enable or disable reprojection cache
+			enable	T_ENABLE_CACHE	Enable depth map cache
+				#.set.reprojection
+			disable	T_DISABLE_CACHE	Disable depth map cache
+				#.set.reprojection

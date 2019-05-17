@@ -32,7 +32,7 @@ Most of Capoc code was adapted from an earlier C project, and thus would benefit
 * utility classes (capServer, capCli, tcpServer)
 
 ### capEngine
-capEngine provides two interfaces for the GUI part, namely a scripting command and native C++ interface, through which it receives commands from the GUI module. It does not make any assumptions on the GUI toolkit in use (the first version of capoc 
+capEngine provides two interfaces for the GUI part, namely a scripting command and native C++ interface, through which it receives commands from the GUI module. It does not make any assumptions on the GUI toolkit in use.
 
 Most of the functions are invoked with scripting commands, by calling  `capEngine::execStringf()`. These commands take the form of short, one line keyword combinations, such as `camera retreat` or `model 0 nvm camera P8192012.JPG reproject throw-cursor`. 
 
